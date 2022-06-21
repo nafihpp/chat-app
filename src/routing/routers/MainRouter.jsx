@@ -5,6 +5,7 @@ import AppRoute from "../routes/AppRoute";
 import AuthRoute from "../routes/AuthRoute";
 import AppRouter from "./AppRouter";
 import AuthRouter from "./AuthRouter";
+
 function MainRouter() {
     const {
         dispatch,

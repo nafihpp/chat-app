@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { CgProfile } from "react-icons/cg";
 function Navbar({ item, setItem }) {
     const [search, setSearch] = useState([]);
     const handleFilter = (e) => {
@@ -16,26 +17,29 @@ function Navbar({ item, setItem }) {
                 <MainList>
                     <Childone>
                         <HeadDiv>
-                            <LogoImg />
+                            <LogoImg src={require("../../assets/chat.webp")} />
                         </HeadDiv>
                     </Childone>
                     <Childtwo>
                         <DashboardLink to="/signup" className="Margin">
-                            Signup
+                            Edit Profile
                         </DashboardLink>
-                        <DashboardLink to="/login">Login</DashboardLink>
                         <Button to="/cart">
                             <IoIosNotificationsOutline />
                             <Badge>
-                                <Priced>{item.length}</Priced>
+                                <Priced>{10}</Priced>
                             </Badge>
                         </Button>
+                        <Profile>
+                            <CgProfile />
+                        </Profile>
                     </Childtwo>
                 </MainList>
             </Wrap>
         </NavbarTop>
     );
 }
+const Profile = styled.span``;
 const Wrap = styled.div``;
 const Priced = styled.span`
     display: flex;

@@ -4,8 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import Helmet from "react-helmet";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
+import { Context } from "../contexts/store";
 
-export default function Login() {
+export default function Login({ children }) {
+    const {
+        dispatch,
+        state: { user_data },
+    } = useContext(Context);
+    const isLogin = user_data.isLogin;
+    console.log(isLogin);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -14,12 +21,21 @@ export default function Login() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             alert("successfully logined");
+            loginData();
             navigate("/home");
         } catch (err) {
             alert(err.message);
             setEmail("");
             setPassword("");
         }
+    };
+    const loginData = () => {
+        dispatch({
+            type: "UPDATE_USER_DATA",
+            user_data: {
+                isLogin: true,
+            },
+        });
     };
     return (
         <>
