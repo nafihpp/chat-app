@@ -1,41 +1,26 @@
-import { React, useEffect, useState } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import Helmet from "react-helmet";
-import { useAuthContext } from "../contexts/AuthContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../firebase";
 
 export default function Login() {
-    const [name, setName] = useState([]);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { logIn, user } = useAuthContext();
-    const [isLoggedIn, setisLoggedIn] = useState(false);
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await logIn(email, password);
-            setisLoggedIn(true);
-            // alert("successfully logined");
-            const pizza = localStorage.setItem(
-                "user_file",
-                JSON.stringify(user, isLoggedIn)
-            );
-            console.log(user);
-            isLoggedIn && navigate("/home");
+            await signInWithEmailAndPassword(auth, email, password);
+            alert("successfully logined");
+            navigate("/home");
         } catch (err) {
             alert(err.message);
             setEmail("");
             setPassword("");
         }
     };
-    useEffect(() => {
-        const pizza = localStorage.setItem(
-            "user_file",
-            JSON.stringify(user, isLoggedIn)
-        );
-    }, []);
-    console.log(isLoggedIn, "log");
     return (
         <>
             <Helmet>
@@ -78,7 +63,9 @@ export default function Login() {
                                             }
                                         />
                                     </InputContainer>
-                                    <LoginButton to="/">Signup Now</LoginButton>
+                                    <LoginButton to="register">
+                                        Signup Now
+                                    </LoginButton>
                                     <ButtonContainer>
                                         <SubmitButton onClick={handleSubmit}>
                                             Login
